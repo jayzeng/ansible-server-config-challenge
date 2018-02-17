@@ -1,6 +1,8 @@
+# application zip file name and temp location to unzip
 application_zip: "application.zip"
 temp_application_zip_location: "/tmp/{{ application_zip }}"
 
+# service app name (for systemd)
 application_service: "app"
 
 # ssl cert

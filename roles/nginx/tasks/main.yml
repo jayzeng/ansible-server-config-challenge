@@ -1,0 +1,30 @@
+---
+- name: Install nginx
+  yum: name=nginx state=present
+
+- name: override default nginx config
+  template:
+    src: template/nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    mode: 0744
+
+- name: copy ssl crt
+  template:
+    src: "{{ ssl_crt }}"
+    dest: /etc/ssl/certs/nginx-signed.crt
+    mode: 0600
+
+- name: copy ssl key
+  template:
+    src: "{{ ssl_key }}"
+    dest: /etc/ssl/certs/nginx-signed.key
+    mode: 0600
+
+- name: upload ssl config
+  template:
+    src: "{{ item }}"
+    dest: /etc/nginx/conf.d/{{ item | basename | regex_replace('\.j2', '') }}
+    mode: 0600
+  with_fileglob:
+    - template/conf.d/*.j2
+  notify: restart nginx

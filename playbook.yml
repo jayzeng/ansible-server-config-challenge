@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: True
+  vars_files:
+    - vars/application.yml
+  roles:
+    - nginx
+  tasks:
+    - include: tasks/deps.yml
+    - include: tasks/application.yml

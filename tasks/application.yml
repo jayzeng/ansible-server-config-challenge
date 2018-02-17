@@ -1,0 +1,27 @@
+---
+- name: copy application.zip
+  copy:
+    src: "{{ application_zip }}"
+    dest: "{{ temp_application_zip_location }}"
+    mode: 0600
+
+- name: unzip application.zip
+  command: unzip -o "{{ temp_application_zip_location }}" -d /opt
+
+- name: clean up temp application.zip
+  file:
+    path: "{{ temp_application_zip_location }}"
+    state: absent
+
+- name: register (systemd) app service
+  template:
+      src=templates/app.service.j2
+      dest=/etc/systemd/system/{{ application_service }}.service
+      mode=700
+
+- name: (re)start application service
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: "{{ application_service }}"
+  tags: deploy

@@ -1,0 +1,8 @@
+application_zip: "application.zip"
+temp_application_zip_location: "/tmp/{{ application_zip }}"
+
+application_service: "app"
+
+# ssl cert
+ssl_crt: "files/self-signed.crt"
+ssl_key: "files/self-signed.key"

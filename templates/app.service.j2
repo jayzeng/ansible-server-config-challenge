@@ -1,0 +1,9 @@
+[Unit]
+Description=python application service
+
+[Service]
+ExecStart=/opt/application/run
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
